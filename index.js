@@ -7,6 +7,14 @@ const authRoutes = require("./routes/authRoutes")
 const userRoutes = require("./routes/userRoutes")
 const jobRoutes = require("./routes/jobRoutes")
 const messagesRoutes = require("./routes/messagesRoutes")
+var cors = require('cors')
+
+const corsOptions = {
+    origin: "*",
+    method: ["GET", "POST"]
+}
+
+app.use(cors(corsOptions))
 
 connect();
 app.use(express.json());
