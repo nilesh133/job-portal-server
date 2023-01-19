@@ -6,6 +6,10 @@ const jobSchema = new Schema({
         required: true
     },
 
+    recruiter_logo: {
+        type: "String"
+    },
+
     companyname: {
         type: "String",
         required: true
@@ -31,7 +35,11 @@ const jobSchema = new Schema({
         required: true
     },
 
-    aboutcompany: {
+    aboutCompany: {
+        type: "String",
+        required: true
+    },
+    jobdescription: {
         type: "String",
         required: true
     },

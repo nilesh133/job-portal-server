@@ -15,7 +15,8 @@ module.exports.jobValidation = [
     body("jobtype").not().isEmpty().trim().withMessage("Job type is required"),
     body("minsalary").not().isEmpty().trim().withMessage("Min salary is required"),
     body("maxsalary").not().isEmpty().trim().withMessage("Max salary is required"),
-    body("aboutcompany").not().isEmpty().trim().withMessage("Please write something about your company"),
+    body("aboutCompany").not().isEmpty().trim().withMessage("Please write something about your company"),
+    body("aboutCompany").not().isEmpty().trim().withMessage("Please write a brief job description"),
     body("minexperience").not().isEmpty().trim().withMessage("Min experience is required"),
     body("maxexperience").not().isEmpty().trim().withMessage("Max experience is required"),
     body("location").not().isEmpty().trim().withMessage("Location is required"),
@@ -24,7 +25,7 @@ module.exports.jobValidation = [
 ]
 
 module.exports.jobPost = async (req, res) => {
-    const {recruiter_id, companyname, jobtype, jobprofile, minsalary, maxsalary, aboutcompany, minexperience, maxexperience, location, deadline, responsibilities } = req.body;
+    const {recruiter_id, recruiter_logo, companyname, jobtype, jobprofile, minsalary, maxsalary, aboutCompany, jobdescription, minexperience, maxexperience, location, deadline, responsibilities } = req.body;
     // console.log(responsibilities)
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -35,12 +36,14 @@ module.exports.jobPost = async (req, res) => {
     try{
         const job = await Job.create({
             recruiter_id: recruiter_id,
+            recruiter_logo: recruiter_logo,
             companyname : companyname,
             jobprofile: jobprofile,
             jobtype : jobtype,
             minsalary: minsalary,
             maxsalary: maxsalary,
-            aboutcompany: aboutcompany,
+            aboutCompany: aboutCompany,
+            jobdescription: jobdescription,
             minexperience: minexperience,
             maxexperience: maxexperience,
             location: location,
@@ -48,7 +51,13 @@ module.exports.jobPost = async (req, res) => {
             responsibilities: responsibilities
         })
 
-        return res.status(200).json({msg: "Job has been psoted"});
+        const newrecruiter =  await Recruiter.findByIdAndUpdate(recruiter_id, {
+            aboutCompany: aboutCompany
+        }, {new: true})
+
+        const token = generateToken(newrecruiter);
+        return res.status(200).json({ msg: "Job has been posted", token });
+
     }
     catch(err){
         // console.log(err)
@@ -133,7 +142,7 @@ module.exports.userJobApply = async (req, res) => {
             appliedAt: req.body.appliedAt
         })
 
-        console.log(newAppliedCompany);
+        // console.log(newAppliedCompany);
 
         const user = await User.findByIdAndUpdate(req.body.userid,
             {

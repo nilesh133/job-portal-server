@@ -13,6 +13,13 @@ const recuiterSchema = new Schema({
         type: "String",
         required: true
     },
+    companyLogo: {
+        type: "String",
+        default: "https://iabc.bc.ca/wp-content/uploads/2018/05/unknown_profile.png"
+    },
+    aboutCompany: {
+        type: "String"
+    },
     isRecruiter: {
         type: Boolean,
         default: true
@@ -66,7 +73,7 @@ const userSchema = new Schema({
     
     userPhotoUrl: {
         type: "String",
-        default: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80"
+        default: "https://iabc.bc.ca/wp-content/uploads/2018/05/unknown_profile.png"
     },
 
     education: [{

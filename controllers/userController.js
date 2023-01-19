@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { User } = require("../models/authSchema");
+const { User, Recruiter } = require("../models/authSchema");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (user) => {
@@ -31,5 +31,41 @@ module.exports.updateUserProfile = async (req, res) => {
     }
     catch (err) {
         return res.status(500).json({ errors: err });
+    }
+}
+
+module.exports.updateRecruiterLogo = async (req, res) => {
+    // console.log(req.body)
+    try {
+        const response = await Recruiter.findByIdAndUpdate(req.body.id,
+            {
+                companyLogo: req.body.companyLogo
+            },
+            { new: true }
+        );
+        const token = generateToken(response);
+        return res.status(200).json({ msg: "User profile updated", token });
+    }
+    catch (err) {
+        return res.status(500).json({ errors: err });
+        console.log(err)
+    }
+}
+
+module.exports.updateRecruiterAbout = async (req, res) => {
+    // console.log(req.body)
+    try {
+        const response = await Recruiter.findByIdAndUpdate(req.body.id,
+            {
+                aboutCompany: req.body.aboutCompany
+            },
+            { new: true }
+        );
+        const token = generateToken(response);
+        return res.status(200).json({ msg: "User profile updated", token });
+    }
+    catch (err) {
+        return res.status(500).json({ errors: err });
+        // console.log(err)
     }
 }
