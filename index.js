@@ -31,12 +31,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`Connected on port ${port}`)
 })
-
-// user: jobportaluser
-// password: jobportalpassword
-// cluster: jobportalcluster
-
-// 1. where to use {} while using findbyIdAndUpdate or findOne
-// 2. req.body is working in sendMessage controller on line number 6 which is called using same method from UserProfileView component
-// on line number 20 but its not working in fetchRecruiterMessages controller on line number 47 which is also called using same method
-// from UserProfileView component on line number 24
